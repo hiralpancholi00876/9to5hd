@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_posts {
+  id                   Int                    @id @default(autoincrement())
+  slug                 String                 @unique
+  post_title           String                 @map("post_title")
+  title                String
+  poster               String?
+  rating               Float?
+  plot                 String?
+  language             Json?
+  genre                Json?
+  release_date         DateTime?              @map("release_date")
+  country              String?
+  keywords             Json?
+  post_type            String                 @default("movie") @map("post_type") @db.VarChar(10)
+  views_count          Int                    @default(0) @map("views_count")
+  imdb_id              String?                @map("imdb_id")
+  tmdb_id              String?                @map("tmdb_id")
+  seasons_number       Int                    @default(1) @map("seasons_number")
+  total_episodes       Int                    @default(0) @map("total_episodes")
+  is_featured          Boolean                @default(false) @map("is_featured")
+  is_active            Boolean                @default(true) @map("is_active")
+  is_delete            Boolean                @default(false) @map("is_delete")
+  created_at           DateTime               @default(now()) @map("created_at")
+  updated_at           DateTime               @updatedAt @map("updated_at")
+  tbl_posts_categories tbl_posts_categories[]
+  tbl_dl_links         tbl_dl_links[]
+}
+
+model tbl_categories {
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @unique
+  description          String?
+  is_active            Boolean                @default(true) @map("is_active")
+  created_at           DateTime               @default(now()) @map("created_at")
+  tbl_posts_categories tbl_posts_categories[]
+}
+
+model tbl_posts_categories {
+  id          Int            @id @default(autoincrement())
+  post        tbl_posts      @relation(fields: [post_id], references: [id])
+  category    tbl_categories @relation(fields: [category_id], references: [id])
+  category_id Int
+  post_id     Int
+  created_at  DateTime       @default(now()) @map("created_at")
+}
+
+model tbl_dl_links {
+  id          Int       @id @default(autoincrement())
+  post        tbl_posts @relation(fields: [post_id], references: [id])
+  post_id     Int
+  button_name String    @unique
+  url         String
+  is_stream   Boolean   @default(false) @map("is_stream")
+  is_telegram Boolean   @default(false) @map("is_telegram")
+  is_active   Boolean   @default(true) @map("is_active")
+  is_delete   Boolean   @default(false) @map("is_delete")
+  created_at  DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime  @updatedAt @map("updated_at")
+}
