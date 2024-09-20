@@ -25,8 +25,8 @@ const addPost = async (req, res) => {
                 views_count: 0,
                 imdb_id: body.imdb_id,
                 tmdb_id: body.tmdb_id,
-                seasons_number: body.seasons_number,
-                total_episodes: body.total_episodes,
+                seasons_number: Number(body.seasons_number),
+                total_episodes: Number(body.total_episodes),
                 is_featured: body.is_featured || false,
                 is_active: body.is_active || false,
                 is_delete: false,
@@ -42,6 +42,7 @@ const addPost = async (req, res) => {
         });
     }
     catch (e) {
+    console.log('e :', e);
         return res.status(200).json({
             status: false,
             message: (e?.code == 'P2002') ? "Unique constraint Slug" : 'Something went wrong'
