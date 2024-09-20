@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 let app = express();
+const cors = require('cors');
+
 app.disable("x-powered-by");
 // Setting up express for text parser
 app.use(express.json());
-
+app.use(cors());
 //////////////////////////////////////////////////////////////////////
 //                              paths                               //
 //////////////////////////////////////////////////////////////////////
