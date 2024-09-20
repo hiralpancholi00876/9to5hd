@@ -11,7 +11,7 @@ router.post('/posts/add', checkApiKey, validateJoi(Joi.object({
     poster: Joi.string().uri().optional(),
     rating: Joi.number().min(0).max(10).optional(),
     plot: Joi.string().trim().allow('').optional(),
-    language: Joi.string().trim().optional(),
+    language: Joi.array().items(Joi.string().trim()).optional(),
     genre: Joi.array().items(Joi.string().trim()).optional(),
     release_date: Joi.date().iso().required(),
     country: Joi.string().trim().required(),
@@ -54,6 +54,10 @@ router.post('/posts/delete-inactive/:id', checkApiKey, validateJoi(Joi.object({
 })), mainModel.deleteOrIsActivePost);
 
 router.get('/posts/:id', checkApiKey, mainModel.getPostById);
+
+router.post('/posts/search', checkApiKey, validateJoi(Joi.object({
+    search: Joi.string().trim().min(3).max(255).required(),
+})), mainModel.IsActiveCategory);
 
 router.get('/categories', checkApiKey, mainModel.getCategory);
 
