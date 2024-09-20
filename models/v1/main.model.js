@@ -20,7 +20,7 @@ const addPost = async (req, res) => {
                 genre: body?.genre?.split(','),
                 release_date: new Date(body.release_date),
                 country: body.country,
-                keywords: body.keywords,
+                keywords: body?.keywords.split(','),
                 post_type: body.post_type,
                 views_count: 0,
                 imdb_id: body.imdb_id,

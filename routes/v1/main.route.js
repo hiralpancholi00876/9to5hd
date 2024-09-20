@@ -15,7 +15,7 @@ router.post('/posts/add', checkApiKey, validateJoi(Joi.object({
     genre: Joi.string().trim().required(),
     release_date: Joi.date().iso().required(),
     country: Joi.string().trim().required(),
-    keywords: Joi.array().items(Joi.string().trim()).required(),
+    keywords: Joi.string().trim().required(),
     post_type: Joi.string().trim().required(),
     imdb_id: Joi.string().trim().required(),
     tmdb_id: Joi.string().trim().required(),
