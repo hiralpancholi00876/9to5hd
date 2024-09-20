@@ -14,7 +14,7 @@ const addPost = async (req, res) => {
                 post_title: body.post_title,
                 title: body.title,
                 poster: body.poster,
-                rating: body.rating,
+                rating: Number(body.rating),
                 plot: body.plot,
                 language: body.language,
                 genre: body?.genre?.split(','),
