@@ -17,7 +17,7 @@ const addPost = async (req, res) => {
                 rating: body.rating,
                 plot: body.plot,
                 language: body.language,
-                genre: body.genre,
+                genre: body?.genre?.split(','),
                 release_date: new Date(body.release_date),
                 country: body.country,
                 keywords: body.keywords,

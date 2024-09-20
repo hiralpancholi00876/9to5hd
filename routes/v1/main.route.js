@@ -12,7 +12,7 @@ router.post('/posts/add', checkApiKey, validateJoi(Joi.object({
     rating: Joi.number().min(0).max(10).optional(),
     plot: Joi.string().trim().allow('').optional(),
     language: Joi.array().items(Joi.string().trim()).optional(),
-    genre: Joi.array().items(Joi.string().trim()).optional(),
+    genre: Joi.string().trim().required(),
     release_date: Joi.date().iso().required(),
     country: Joi.string().trim().required(),
     keywords: Joi.array().items(Joi.string().trim()).required(),
