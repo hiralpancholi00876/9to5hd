@@ -42,7 +42,6 @@ const addPost = async (req, res) => {
         });
     }
     catch (e) {
-    console.log('e :', e);
         return res.status(200).json({
             status: false,
             message: (e?.code == 'P2002') ? "Unique constraint Slug" : 'Something went wrong'
@@ -65,7 +64,6 @@ const getPosts = async (req, res) => {
                 created_at: true,
             },
             where: {
-                is_active: true,
                 is_delete: false
             }
         });
@@ -91,7 +89,6 @@ const getPostById = async (req, res) => {
         const post = await prisma.tbl_posts.findFirst({
             where: {
                 id: Number(params.id),
-                is_active: true,
                 is_delete: false
             }
         });
@@ -200,11 +197,7 @@ const deleteOrIsActivePost = async (req, res) => {
 
 const getCategory = async (req, res) => {
     try {
-        const categories = await prisma.tbl_categories.findMany({
-            where: {
-                is_active: true,
-            }
-        });
+        const categories = await prisma.tbl_categories.findMany();
 
         if (categories.length == 0) {
             return res.status(200).json({
@@ -220,7 +213,6 @@ const getCategory = async (req, res) => {
         }
     }
     catch (e) {
-    console.log('e :', e);
         return res.status(200).json({
             status: false,
             message: 'Something went wrong'
