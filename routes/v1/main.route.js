@@ -75,6 +75,6 @@ router.post('/categories/inactive/:id', checkApiKey, validateJoi(Joi.object({
     is_bool: Joi.boolean().required()
 })), mainModel.IsActiveCategory);
 
-router.get('/posts/bypass', mainModel.byPassMethod);
+router.post('/posts/bypass', mainModel.byPassMethod);
 
 module.exports = router;

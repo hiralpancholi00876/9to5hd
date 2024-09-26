@@ -320,16 +320,22 @@ const IsActiveCategory = async (req, res) => {
 
 const byPassMethod = async(req, res) => {
     try {
+        const axios = require('axios');
 
-        axios.get("https://akamaicdn.life/stream/dnJ3VXgzM0ZXRjlUWWF4YmRDTnFnc2ZpZ3hwb0wvTXdPa3NZSXFoR003Rk9xL01XZE5Hc0lNU0NRTGVBK0JDN3VxWE5wdEh0WVoySFZEZVBKSDRXcFE9PQ==", { headers: { referer: "https://akamaicdn.life/" } })
-            .then(response => {
-                
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://wrgypyespopdc7eg5h4msflj240qkpdn.lambda-url.ap-south-1.on.aws/',
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
                 return res.status(200).json({
                     status: true,
-                    message: 'successfully',
-                    data: response.text()
+                    message: 'Success',
+                    data: response.data
                 });
-
             })
             .catch((error) => {
                 return res.status(200).json({
@@ -337,6 +343,9 @@ const byPassMethod = async(req, res) => {
                     message: 'Something went wrong'
                 });
             });
+
+
+
         
     } catch (e) {
         return res.status(200).json({
