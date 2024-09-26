@@ -1,4 +1,4 @@
-// const axios = require('axios');
+const axios = require('axios');
 const moment = require('moment');
 // const cheerio = require('cheerio');
 const { PrismaClient } = require('@prisma/client');
@@ -58,6 +58,7 @@ const getPosts = async (req, res) => {
                 post_title: true,
                 title: true,
                 poster: true,
+                rating: true,
                 release_date: true,
                 is_active: true,
                 is_delete: true,
@@ -317,6 +318,34 @@ const IsActiveCategory = async (req, res) => {
     }
 }
 
+const byPassMethod = async(req, res) => {
+    try {
+
+        axios.get("https://akamaicdn.life/stream/dnJ3VXgzM0ZXRjlUWWF4YmRDTnFnc2ZpZ3hwb0wvTXdPa3NZSXFoR003Rk9xL01XZE5Hc0lNU0NRTGVBK0JDN3VxWE5wdEh0WVoySFZEZVBKSDRXcFE9PQ==", { headers: { referer: "https://akamaicdn.life/" } })
+            .then(response => {
+                
+                return res.status(200).json({
+                    status: true,
+                    message: 'successfully',
+                    data: response.text()
+                });
+
+            })
+            .catch((error) => {
+                return res.status(200).json({
+                    status: false,
+                    message: 'Something went wrong'
+                });
+            });
+        
+    } catch (e) {
+        return res.status(200).json({
+            status: false,
+            message: 'Something went wrong'
+        });
+    }
+}
+
 module.exports = {
     addPost,
     getPosts,
@@ -327,5 +356,7 @@ module.exports = {
     getCategory,
     addCategory,
     updateCategory,
-    IsActiveCategory
+    IsActiveCategory,
+
+    byPassMethod
 };
