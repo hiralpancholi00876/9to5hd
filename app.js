@@ -4,16 +4,19 @@ let app = express();
 const cors = require('cors');
 
 app.disable("x-powered-by");
-// Setting up express for text parser
+
 app.use(express.json());
 app.use(cors());
+
 //////////////////////////////////////////////////////////////////////
 //                              paths                               //
 //////////////////////////////////////////////////////////////////////
 
 let routes = require('./routes/v1/main.route');
+let webRoutes = require('./routes/v1/web.route');
 
 app.use('/api/v1/', routes);
+app.use('/api/v1/webapp/', webRoutes);
 
 app.use("*", (req, res) => {
     res.status(404);

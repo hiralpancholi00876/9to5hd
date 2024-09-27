@@ -343,10 +343,6 @@ const byPassMethod = async(req, res) => {
                     message: 'Something went wrong'
                 });
             });
-
-
-
-        
     } catch (e) {
         return res.status(200).json({
             status: false,
@@ -354,6 +350,7 @@ const byPassMethod = async(req, res) => {
         });
     }
 }
+
 
 module.exports = {
     addPost,
@@ -368,4 +365,5 @@ module.exports = {
     IsActiveCategory,
 
     byPassMethod
+
 };
