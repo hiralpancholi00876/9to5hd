@@ -1,5 +1,6 @@
 const axios = require('axios');
 const moment = require('moment');
+const asyncloop = require('async-each');
 // const cheerio = require('cheerio');
 const { PrismaClient } = require('@prisma/client');
 
@@ -8,6 +9,7 @@ const prisma = new PrismaClient();
 const addPost = async (req, res) => {
     try {
         let { body } = req;
+
         const post = await prisma.tbl_posts.create({
             data: {
                 slug: body.slug,
@@ -35,10 +37,18 @@ const addPost = async (req, res) => {
             }
         });
 
+        body.links.map((o)=> { 
+            o.post_id = post.id;
+         });
+        
+        const postLinks = await prisma.tbl_dl_links.createManyAndReturn({
+            data: body.links,
+          })
+
         return res.status(200).json({
             status: true,
             message: 'Post added successfully',
-            data: post
+            data: {...post, ...{links: postLinks}}
         });
     }
     catch (e) {
@@ -94,6 +104,19 @@ const getPostById = async (req, res) => {
             }
         });
 
+        const postLinks = await prisma.tbl_dl_links.findMany({
+            select: {
+                id: true,
+                button_name: true,
+                url: true
+            },
+            where: {
+                post_id: Number(params.id),
+                is_active: true,
+                is_delete: false,
+            }
+        });
+
         if (!post) {
             return res.status(200).json({
                 status: null,
@@ -104,7 +127,7 @@ const getPostById = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 message: 'Post fetched successfully',
-                data: post
+                data: {...post, ...{links: postLinks}}
             });
         }
     }
@@ -144,11 +167,23 @@ const updatePost = async (req, res) => {
                 is_active: body.is_active || false,
             }
         });
+        const deletePostLinks = await prisma.tbl_dl_links.deleteMany({
+            where: {
+              post_id: Number(params?.id),
+            },
+          })
 
+          body.links.map((o)=> { 
+            o.post_id = Number(params?.id);
+         });
+        
+        const postLinks = await prisma.tbl_dl_links.createManyAndReturn({
+            data: body.links,
+          })
         return res.status(200).json({
             status: true,
             message: 'Post updated successfully',
-            data: post
+            data: {...post, ...{links: postLinks}}
         });
     }
     catch (e) {

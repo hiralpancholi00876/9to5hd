@@ -97,6 +97,19 @@ const postDetails = async (req, res) => {
             }
         });
 
+        const postLinks = await prisma.tbl_dl_links.findMany({
+            select: {
+                id: true,
+                button_name: true,
+                url: true
+            },
+            where: {
+                post_id: lists.id,
+                is_active: true,
+                is_delete: false,
+            }
+        });
+
         if (!lists) {
             return res.status(200).json({
                 status: null,
@@ -106,7 +119,7 @@ const postDetails = async (req, res) => {
             return res.status(200).json({
                 status: true,
                 message: 'movies fetched successfully',
-                data: lists
+                data: {...lists, ...{links: postLinks}}
             });
         }
     }

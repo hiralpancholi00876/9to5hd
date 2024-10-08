@@ -55,8 +55,6 @@ CREATE TABLE "tbl_dl_links" (
     "post_id" INTEGER NOT NULL,
     "button_name" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "is_stream" BOOLEAN NOT NULL DEFAULT false,
-    "is_telegram" BOOLEAN NOT NULL DEFAULT false,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
     "is_delete" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -70,9 +68,6 @@ CREATE UNIQUE INDEX "tbl_posts_slug_key" ON "tbl_posts"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tbl_categories_name_key" ON "tbl_categories"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "tbl_dl_links_button_name_key" ON "tbl_dl_links"("button_name");
 
 -- AddForeignKey
 ALTER TABLE "tbl_posts_categories" ADD CONSTRAINT "tbl_posts_categories_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "tbl_posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -23,6 +23,7 @@ router.post('/posts/add', checkApiKey, validateJoi(Joi.object({
     total_episodes: Joi.number().integer().min(0).default(0),
     is_featured: Joi.boolean().default(false),
     is_active: Joi.boolean().default(false),
+    links: Joi.array().required(),
 })), mainModel.addPost);
 
 router.get('/posts', checkApiKey, mainModel.getPosts);
@@ -46,6 +47,7 @@ router.post('/posts/update/:id', checkApiKey, validateJoi(Joi.object({
     total_episodes: Joi.number().integer().min(0).default(0),
     is_featured: Joi.boolean().default(false),
     is_active: Joi.boolean().default(false),
+    links: Joi.array().required(),
 })), mainModel.updatePost);
 
 router.post('/posts/delete-inactive/:id', checkApiKey, validateJoi(Joi.object({

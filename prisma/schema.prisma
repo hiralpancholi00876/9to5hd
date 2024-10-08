@@ -63,10 +63,8 @@ model tbl_dl_links {
   id          Int       @id @default(autoincrement())
   post        tbl_posts @relation(fields: [post_id], references: [id])
   post_id     Int
-  button_name String    @unique
-  url         String
-  is_stream   Boolean   @default(false) @map("is_stream")
-  is_telegram Boolean   @default(false) @map("is_telegram")
+  button_name String?
+  url         String?
   is_active   Boolean   @default(true) @map("is_active")
   is_delete   Boolean   @default(false) @map("is_delete")
   created_at  DateTime  @default(now()) @map("created_at")
